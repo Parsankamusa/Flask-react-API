@@ -45,7 +45,7 @@ Follow these steps to set up and run the project:
     npx create-react-app my-app.
     cd my-app.
     npm start.
-   ```
+    ```
    # installing dependancies
    ```bash
      * npm install axios
@@ -160,7 +160,7 @@ const BalancePage = () => {
 };
 
 export default BalancePage;
-   ``
+   ```
 
 # Backend 
 1. Navigate to the project directory 
