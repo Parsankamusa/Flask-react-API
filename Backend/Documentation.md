@@ -68,45 +68,7 @@ export default axios.create({
     "private": true,
     "proxy": "http://localhost:5000",
   }
-   ``` 
-# setting up checkbalance Page
-```bash
-import React, { useState } from "react";
-import httpClient from "./httpClient";
-
-// BalancePage component
-const BalancePage = () => {
-  const [username, setUsername] = useState("");
-  const [balance, setBalance] = useState("");
-
-  const fetchBalance = async () => {
-    try {
-      const resp = await httpClient.get(`//localhost:5000/account/${username}`);
-      setBalance(resp.data.balance);
-    } catch (error) {
-      alert("Error fetching balance");
-    }
-  };
-
-  return (
-    <div>
-      <h1>Check Balance</h1>
-      <label>Username: </label>
-      <input 
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <button type="button" onClick={fetchBalance}>
-        Fetch Balance
-      </button>
-      {balance && <p>Balance: {balance}</p>}
-    </div>
-  );
-};
-
-export default BalancePage;
-   ``
+   ```
 # setting up Fundstransfer page
  ```bash
     import React, { useState } from "react";
@@ -161,6 +123,45 @@ const TransferFunds = () => {
 
 export default TransferFunds;
    ```
+# setting up checkbalance Page
+```bash
+import React, { useState } from "react";
+import httpClient from "./httpClient";
+
+// BalancePage component
+const BalancePage = () => {
+  const [username, setUsername] = useState("");
+  const [balance, setBalance] = useState("");
+
+  const fetchBalance = async () => {
+    try {
+      const resp = await httpClient.get(`//localhost:5000/account/${username}`);
+      setBalance(resp.data.balance);
+    } catch (error) {
+      alert("Error fetching balance");
+    }
+  };
+
+  return (
+    <div>
+      <h1>Check Balance</h1>
+      <label>Username: </label>
+      <input 
+        type="text"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <button type="button" onClick={fetchBalance}>
+        Fetch Balance
+      </button>
+      {balance && <p>Balance: {balance}</p>}
+    </div>
+  );
+};
+
+export default BalancePage;
+   ``
+
 # Backend 
 1. Navigate to the project directory 
    ```bash
