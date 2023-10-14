@@ -1,4 +1,5 @@
-# My documentation on the http security
+# Flask-react-API
+# My documentation on the http security application
 * https security is very crucial from external attack
 * Bellow are some featured I have implemented to ensure that my endpoint in the flask api are secure
 
@@ -57,14 +58,9 @@ Follow these steps to set up and run the project:
    ```bash
    pip install request
    ```
-   ```
-   ```bash
   from flask_cors import CORS, cross_origin
-   ```
-   ```
    ```bash
   from flask_session import Session
-   ```
     ```bash
   from flask_talisman import Talisman
    ```
@@ -82,10 +78,10 @@ Follow these steps to set up and run the project:
    ```bash
    db = SQLAlchemy()
 
-def get_uuid():
+   def get_uuid():
     return uuid4().hex
 
-class User(db.Model):
+   class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
     email = db.Column(db.String(345), unique=True)
@@ -95,7 +91,7 @@ class User(db.Model):
 7. creating a route to login:
    ```bash
    @app.route("/login", methods=["POST"])
-def login_user():
+   def login_user():
     email = request.json["email"]
     password = request.json["password"]
 
@@ -188,12 +184,13 @@ Your Flask server should now be running at http://localhost:5000.
 
    # Frondend Part
    # setting up proxy
+   
     ```bash
-   {
-  "name": "front-react",
-  "version": "0.1.0",
-  "private": true,
-  "proxy": "http://localhost:5000",
+     {
+    "name": "front-react",
+    "version": "0.1.0",
+   "private": true,
+   "proxy": "http://localhost:5000",
   }
    ```
 # Installing and setting up axios
