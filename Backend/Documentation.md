@@ -113,8 +113,8 @@ Follow these steps to set up and run the project:
 
 8. creating a route to register:
    ```bash
- @app.route("/register", methods=["POST"])
-def register_user():
+   @app.route("/register", methods=["POST"])
+   def register_user():
     #getting the data from json file
     email = request.json["email"]
     password = request.json["password"]
@@ -139,7 +139,7 @@ def register_user():
 
    9 creating a route to check balance:
    ```bash
- accounts = {
+   accounts = {
     'account1': {'balance': 1000},
     'account2': {'balance': 2000},
     'account3': {'balance': 1000},
@@ -147,8 +147,8 @@ def register_user():
     }
 
 
-@app.route('/account/<account_name>', methods=['GET'])
-def get_account(account_name):
+   @app.route('/account/<account_name>', methods=['GET'])
+   def get_account(account_name):
     if account_name not in accounts:
         response = jsonify({'error': 'Account not found'})
         # response.headers.add('Access-Control-Allow-Origin', '*')
