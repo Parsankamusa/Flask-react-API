@@ -40,26 +40,18 @@ Follow these steps to set up and run the project:
    git clone https://github.com/Parsankamusa/Flask-react-API.git
    ```
   # Frontend Part
-   # setting up proxy
    # Quickstart
     ```bash
     npx create-react-app my-app.
-   cd my-app.
-   npm start.
+    cd my-app.
+    npm start.
    ```
    # installing dependancies
    ```bash
      * npm install axios
      * npm react-router-dom
    ```
-    ```bash
-     {
-    "name": "front-react",
-    "version": "0.1.0",
-    "private": true,
-    "proxy": "http://localhost:5000",
-  }
-   ```
+   
 # Installing and setting up axios
  ```bash
 import axios from "axios";
@@ -68,6 +60,15 @@ export default axios.create({
   withCredentials: true,
 });
    ```
+ # setting up proxy
+ ```bash
+     {
+    "name": "front-react",
+    "version": "0.1.0",
+    "private": true,
+    "proxy": "http://localhost:5000",
+  }
+   ``` 
 # setting up checkbalance Page
 ```bash
 import React, { useState } from "react";
