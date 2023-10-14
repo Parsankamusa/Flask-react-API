@@ -39,158 +39,25 @@ Follow these steps to set up and run the project:
    ```bash
    git clone https://github.com/Parsankamusa/Flask-react-API.git
    ```
-   
-2. Navigate to the project directory 
-   ```bash
-   cd Flask-react-API
-   ```
-3. Run the following command to set up virtual environment:
-   ```bash
-   python -m venv env
-   ```
-   ```bash
-   env/Scripts/activate
-   ```
-4. Run the following command to install dependencies:
-   ```bash
-   pip install flask_sqlalchemy
-   ```
-   ```bash
-   pip install request
-   ```
-  from flask_cors import CORS, cross_origin
-   ```bash
-  from flask_session import Session
-    ```bash
-  from flask_talisman import Talisman
-   ```
-5. Create a app.py  file in the project root and configure your SQLAIchemy:
-   ```bash
-   from flask import Flask, request, jsonify
-   from flask_sqlalchemy import SQLAlchemy
-
-   app = Flask(__name__)
-   app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db' 
-   db = SQLAlchemy(app)
-   ```
-   ```
-6. Creating a database model:
-   ```bash
-   db = SQLAlchemy()
-
-   def get_uuid():
-    return uuid4().hex
-
-   class User(db.Model):
-    __tablename__ = "users"
-    id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
-    email = db.Column(db.String(345), unique=True)
-    password = db.Column(db.Text, nullable=False)
-   ```
-   ```
-7. creating a route to login:
-   ```bash
-   @app.route("/login", methods=["POST"])
-   def login_user():
-    email = request.json["email"]
-    password = request.json["password"]
-
-    user = User.query.filter_by(email=email).first()
-
-    if user is None:
-        return jsonify({"error": "Unauthorized"}), 401
-
-    if not bcrypt.check_password_hash(user.password, password):
-        return jsonify({"error": "Unauthorized"}), 401
-    
-    session["user_id"] = user.id
-
-    return jsonify({
-        "id": user.id,
-        "email": user.email
-    })
-   ```
-
-8. creating a route to register:
-   ```bash
-   @app.route("/register", methods=["POST"])
-   def register_user():
-    #getting the data from json file
-    email = request.json["email"]
-    password = request.json["password"]
-
-    user_exists = User.query.filter_by(email=email).first() is not None
-
-    if user_exists:
-        return jsonify({"error": "User already exists"}), 409
-
-    hashed_password = bcrypt.generate_password_hash(password)
-    new_user = User(email=email, password=hashed_password)
-    db.session.add(new_user)
-    db.session.commit()
-    
-    session["user_id"] = new_user.id
-
-    return jsonify({
-        "id": new_user.id,
-        "email": new_user.email
-    })
-   ```
-
-   9 creating a route to check balance:
-   ```bash
-   accounts = {
-    'account1': {'balance': 1000},
-    'account2': {'balance': 2000},
-    'account3': {'balance': 1000},
-    'account4': {'balance': 2000},
-    }
-
-
-   @app.route('/account/<account_name>', methods=['GET'])
-   def get_account(account_name):
-    if account_name not in accounts:
-        response = jsonify({'error': 'Account not found'})
-        # response.headers.add('Access-Control-Allow-Origin', '*')
-        return response, 404
-    response = jsonify(accounts[account_name])
-    # response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
-   ```
-10. Run the following command to start the server:
-   ```bash
-   python app.py or flask run
-   ```
-
-Your Flask server should now be running at http://localhost:5000.
-
- ## Documentation
-* The documentation include test  using postman or curl to verify the API's functionality.
-    https://www.baeldung.com/curl-rest
-  here is a link  for post documentation [postman](https://documenter.getpostman.com/view/24185831/2s9YC2zZAG)
-  
-## Testing 
-  * CURL TESTING
- * Run the following commands to query your api:
-     1. POST
-   ```bash
-   curl -X POST -H "Content-Type: application/json" -d '{"email": "john@gmail.com", "password":"your_password"}' http://127.0.0.1:5000/register
-   Musa@DESKTOP-RPBI479 MINGW64 ~/Desktop/Flask-react/Backend
-   $ curl -X POST -H "Content-Type: application/json" -d '{"email": "john@gmail.com", "password":"john123"}' http://127.0.0.1:5000/api
-   {
-   "message": "user created successfully"
-   }
-   ```
-
-   # Frondend Part
+  # Frontend Part
    # setting up proxy
-   
+   # Quickstart
+    ```bash
+    npx create-react-app my-app.
+   cd my-app.
+   npm start.
+   ```
+   # installing dependancies
+   ```bash
+     * npm install axios
+     * npm react-router-dom
+   ```
     ```bash
      {
     "name": "front-react",
     "version": "0.1.0",
-   "private": true,
-   "proxy": "http://localhost:5000",
+    "private": true,
+    "proxy": "http://localhost:5000",
   }
    ```
 # Installing and setting up axios
@@ -239,3 +106,199 @@ const BalancePage = () => {
 
 export default BalancePage;
    ``
+# setting up Fundstransfer page
+ ```bash
+    import React, { useState } from "react";
+import httpClient from "./httpClient";
+
+// TransferFunds component
+const TransferFunds = () => {
+  const [fromAccount, setFromAccount] = useState("");
+  const [toAccount, setToAccount] = useState("");
+  const [amount, setAmount] = useState("");
+
+  const transferFunds = async () => {
+    try {
+      const resp = await httpClient.post(`//localhost:5000/transfer`, {
+        from: fromAccount,
+        to: toAccount,
+        amount: amount
+      });
+      alert(resp.data.message);
+    } catch (error) {
+      alert(error.response.data.error);
+    }
+  };
+
+  return (
+    <div>
+      <h1>Transfer Funds</h1>
+      <label>From: </label>
+      <input 
+        type="text"
+        value={fromAccount}
+        onChange={(e) => setFromAccount(e.target.value)}
+      />
+      <label>To: </label>
+      <input 
+        type="text"
+        value={toAccount}
+        onChange={(e) => setToAccount(e.target.value)}
+      />
+      <label>Amount: </label>
+      <input 
+        type="number"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+      />
+      <button type="button" onClick={transferFunds}>
+        Transfer Funds
+      </button>
+    </div>
+  );
+};
+
+export default TransferFunds;
+   ```
+# Backend 
+1. Navigate to the project directory 
+   ```bash
+   cd Flask-react-API
+   ```
+2. Run the following command to set up virtual environment:
+   ```bash
+   python -m venv env
+   ```
+   ```bash
+   env/Scripts/activate
+   ```
+3. Run the following command to install dependencies:
+   ```bash
+   pip install flask_sqlalchemy
+   ```
+   ```bash
+   pip install request
+   ```
+  from flask_cors import CORS, cross_origin
+   ```bash
+  from flask_session import Session
+    ```bash
+  from flask_talisman import Talisman
+   ```
+4. Create a app.py  file in the project root and configure your SQLAIchemy:
+   ```bash
+   from flask import Flask, request, jsonify
+   from flask_sqlalchemy import SQLAlchemy
+
+   app = Flask(__name__)
+   app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db' 
+   db = SQLAlchemy(app)
+   ```
+   ```
+5. Creating a database model:
+   ```bash
+   db = SQLAlchemy()
+
+   def get_uuid():
+    return uuid4().hex
+
+   class User(db.Model):
+    __tablename__ = "users"
+    id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
+    email = db.Column(db.String(345), unique=True)
+    password = db.Column(db.Text, nullable=False)
+   ```
+   ```
+6. creating a route to login:
+   ```bash
+   @app.route("/login", methods=["POST"])
+   def login_user():
+    email = request.json["email"]
+    password = request.json["password"]
+
+    user = User.query.filter_by(email=email).first()
+
+    if user is None:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    if not bcrypt.check_password_hash(user.password, password):
+        return jsonify({"error": "Unauthorized"}), 401
+    
+    session["user_id"] = user.id
+
+    return jsonify({
+        "id": user.id,
+        "email": user.email
+    })
+   ```
+
+7. creating a route to register:
+   ```bash
+   @app.route("/register", methods=["POST"])
+   def register_user():
+    #getting the data from json file
+    email = request.json["email"]
+    password = request.json["password"]
+
+    user_exists = User.query.filter_by(email=email).first() is not None
+
+    if user_exists:
+        return jsonify({"error": "User already exists"}), 409
+
+    hashed_password = bcrypt.generate_password_hash(password)
+    new_user = User(email=email, password=hashed_password)
+    db.session.add(new_user)
+    db.session.commit()
+    
+    session["user_id"] = new_user.id
+
+    return jsonify({
+        "id": new_user.id,
+        "email": new_user.email
+    })
+   ```
+
+   8 creating a route to check balance:
+   ```bash
+   accounts = {
+    'account1': {'balance': 1000},
+    'account2': {'balance': 2000},
+    'account3': {'balance': 1000},
+    'account4': {'balance': 2000},
+    }
+
+
+   @app.route('/account/<account_name>', methods=['GET'])
+   def get_account(account_name):
+    if account_name not in accounts:
+        response = jsonify({'error': 'Account not found'})
+        # response.headers.add('Access-Control-Allow-Origin', '*')
+        return response, 404
+    response = jsonify(accounts[account_name])
+    # response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+   ```
+9. Run the following command to start the server:
+   ```bash
+   python app.py or flask run
+   ```
+
+Your Flask server should now be running at http://localhost:5000.
+
+ ## Documentation
+* The documentation include test  using postman or curl to verify the API's functionality.
+    https://www.baeldung.com/curl-rest
+  here is a link  for post documentation [postman](https://documenter.getpostman.com/view/24185831/2s9YC2zZAG)
+  
+## Testing 
+  * CURL TESTING
+ * Run the following commands to query your api:
+     1. POST
+   ```bash
+   curl -X POST -H "Content-Type: application/json" -d '{"email": "john@gmail.com", "password":"your_password"}' http://127.0.0.1:5000/register
+   Musa@DESKTOP-RPBI479 MINGW64 ~/Desktop/Flask-react/Backend
+   $ curl -X POST -H "Content-Type: application/json" -d '{"email": "john@gmail.com", "password":"john123"}' http://127.0.0.1:5000/api
+   {
+   "message": "user created successfully"
+   }
+   ```
