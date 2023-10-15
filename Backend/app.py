@@ -14,7 +14,6 @@ Talisman(app)
 bcrypt = Bcrypt(app)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
 
-# CORS(app, supports_credentials=True)
 server_session = Session(app)
 db.init_app(app)
 
@@ -102,10 +101,8 @@ accounts = {
 def get_account(account_name):
     if account_name not in accounts:
         response = jsonify({'error': 'Account not found'})
-        # response.headers.add('Access-Control-Allow-Origin', '*')
         return response, 404
     response = jsonify(accounts[account_name])
-    # response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 @app.route('/transfer', methods=['POST'])
@@ -123,12 +120,10 @@ def transfer():
     
     if from_account not in accounts or to_account not in accounts:
         response = jsonify({'error': 'Account not found'})
-        # response.headers.add('Access-Control-Allow-Origin', '*')
         return response, 404
 
     if accounts[from_account]['balance'] < amount:
         response = jsonify({'error': 'Insufficient funds'})
-        # response.headers.add('Access-Control-Allow-Origin', '*')
         return response, 400
 
     accounts[from_account]['balance'] -= amount
