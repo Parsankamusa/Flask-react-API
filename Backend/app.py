@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, session
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS, cross_origin
 from flask_session import Session
-#from flask_talisman import Talisman
+from flask_talisman import Talisman
 from config import ApplicationConfig
 from models import db, User
 #from flask_cors import CORS
@@ -10,7 +10,7 @@ from models import db, User
 app = Flask(__name__)
 #loading the application
 app.config.from_object(ApplicationConfig)
-#Talisman(app)
+Talisman(app)
 bcrypt = Bcrypt(app)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
 
