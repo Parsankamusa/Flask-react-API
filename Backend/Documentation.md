@@ -181,11 +181,13 @@ export default BalancePage;
    ```bash
    pip install request
    ```
-  from flask_cors import CORS, cross_origin
    ```bash
-  from flask_session import Session
+    from flask_cors import CORS, cross_origin
+   ```
+   ```bash
+     from flask_session import Session
     ```bash
-  from flask_talisman import Talisman
+       from flask_talisman import Talisman
    ```
 4. Create a app.py  file in the project root and configure your SQLAIchemy:
    ```bash
