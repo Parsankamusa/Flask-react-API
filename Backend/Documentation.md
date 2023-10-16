@@ -186,6 +186,7 @@ export default BalancePage;
    ```
    ```bash
      from flask_session import Session
+      ```
     ```bash
        from flask_talisman import Talisman
    ```
