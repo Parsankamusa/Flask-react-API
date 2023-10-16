@@ -299,7 +299,7 @@ Your Flask server should now be running at http://localhost:5000.
    ```bash
    curl -X POST -H "Content-Type: application/json" -d '{"email": "john@gmail.com", "password":"your_password"}' http://127.0.0.1:5000/register
    Musa@DESKTOP-RPBI479 MINGW64 ~/Desktop/Flask-react/Backend
-   $ curl -X POST -H "Content-Type: application/json" -d '{"email": "john@gmail.com", "password":"john123"}' http://127.0.0.1:5000/api
+   $ curl -X POST -H "Content-Type: application/json" -d '{"email": "john@gmail.com", "password":"john123"}' http://127.0.0.1:5000/register
    {
    "message": "user created successfully"
    }
